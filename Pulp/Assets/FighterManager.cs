@@ -4,27 +4,23 @@ using UnityEngine;
 
 public struct FighterColState
 {
-
+    public bool hurt_hit;
 }
 
 public class FighterManager : MonoBehaviour {
     public Fighter[] fighters;
-    public FighterColState[,] colStates;
+    FighterColState[,] colStates;
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+        colStates = new FighterColState[fighters.Length, fighters.Length];
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
         DetectCollisions();
 	}
-
-    void AddFighter()
-    {
-
-    }
 
     int t = 0;
 
@@ -42,12 +38,30 @@ public class FighterManager : MonoBehaviour {
                 SpriteRenderer bhit = fighters[b].hitSprite;
                 Vector2 bPos = new Vector2(fighters[b].transform.position.x, fighters[b].transform.position.y);
 
-                if (ahurt.gameObject.activeInHierarchy && bhit.gameObject.activeInHierarchy
-                    && polyCollision(translate(ahurt.sprite.vertices, aPos), translate(bhit.sprite.vertices, bPos)))
-                    Debug.Log("A hurts B");
-                if (bhurt.gameObject.activeInHierarchy && ahit.gameObject.activeInHierarchy
-                    && polyCollision(translate(bhurt.sprite.vertices, bPos), translate(ahit.sprite.vertices, aPos)))
-                    Debug.Log("B hurts A");
+                //Check collisions
+                bool AHurtB = ahurt.gameObject.activeInHierarchy && bhit.gameObject.activeInHierarchy && spriteCollision(ahurt.sprite, bhit.sprite, aPos, bPos);
+
+                bool BHurtA = bhurt.gameObject.activeInHierarchy && ahit.gameObject.activeInHierarchy && spriteCollision(bhurt.sprite, ahit.sprite, aPos, bPos);
+
+                //Fire hit events
+                if (AHurtB && !colStates[a, b].hurt_hit)
+                {
+                    fighters[a].HurtBehaviour(fighters[b]);
+                    fighters[b].HitBehaviour(fighters[a]);
+                }
+                if (BHurtA && !colStates[b, a].hurt_hit)
+                {
+                    fighters[b].HurtBehaviour(fighters[a]);
+                    fighters[a].HitBehaviour(fighters[b]);
+                }
+
+                //Update contact states
+                colStates[a, b].hurt_hit = AHurtB;
+                colStates[b, a].hurt_hit = BHurtA;
+
+
+                if (AHurtB)
+                    Debug.Log("Smeesh");
             }
         }
     }
@@ -62,6 +76,34 @@ public class FighterManager : MonoBehaviour {
         return nv;
     }
 
+    bool spriteCollision(Sprite A, Sprite B, Vector2 aPos, Vector2 bPos)
+    {
+        for (int i = 0; i < A.GetPhysicsShapeCount(); ++i)
+        {
+            List<Vector2> AvertList = new List<Vector2>();
+            A.GetPhysicsShape(i, AvertList);
+            Vector2[] Averts = new Vector2[AvertList.Count];
+
+            int a = 0;
+            foreach(Vector2 v in AvertList)
+            {
+                Averts[a] = v + aPos - bPos;
+                ++a;
+            }
+
+            for (int j = 0; j < B.GetPhysicsShapeCount(); ++j)
+            {
+                List<Vector2> Bverts = new List<Vector2>();
+                B.GetPhysicsShape(j, Bverts);
+
+                if (polyCollision(Averts, Bverts.ToArray()))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
     bool polyCollision(Vector2[] I, Vector2[] J)
     {
         //Check if any edges cross
@@ -69,25 +111,29 @@ public class FighterManager : MonoBehaviour {
         {
             int ix = (i + 1) % I.Length;
             float ai = I[ix].y - I[i].y;
-            float bi = I[i].x = I[ix].x;
+            float bi = I[i].x - I[ix].x;
             float ci = ai * I[i].x + bi * I[i].y;
+
+            Debug.DrawLine(new Vector3(I[i].x, I[i].y, 0), new Vector3(I[ix].x, I[ix].y), Color.cyan, 12f);
 
             for (int j = 0; j < J.Length; ++j)
             {
                 int jx = (j + 1) % J.Length;
                 float aj = J[jx].y - J[j].y;
-                float bj = J[j].x = J[jx].x;
+                float bj = J[j].x - J[jx].x;
                 float cj = aj * J[j].x + bj * J[j].y;
 
                 float det = ai * bj - aj * bi;
                 float x = (bj * ci - bi * cj) / det;
                 float y = (ai * cj - aj * ci) / det;
+                
+                Debug.DrawLine(new Vector3(J[j].x, J[j].y, 0), new Vector3(J[jx].x, J[jx].y), Color.yellow, 12f);
 
-                if ((x > I[i].x) == (x < I[ix].x))
+                if (Mathf.Min(I[i].x, I[ix].x) <= x && x <= Mathf.Max(I[i].x, I[ix].x) && Mathf.Min(J[j].x, J[jx].x) <= x && x <= Mathf.Max(J[j].x, J[jx].x))
                 {
-                    //Debug.Log(x + " " + y);
-                    Debug.DrawLine(new Vector3(I[i].x, I[i].y, 0), new Vector3(I[ix].x, I[ix].y), Color.cyan, 1f);
-                    Debug.DrawLine(new Vector3(J[j].x, J[j].y, 0), new Vector3(J[jx].x, J[jx].y), Color.yellow, 1f);
+                    Debug.Log(x + " " + y);
+                    Debug.DrawLine(new Vector3(I[i].x, I[i].y, 0), new Vector3(I[ix].x, I[ix].y), Color.cyan, 12f);
+                    Debug.DrawLine(new Vector3(J[j].x, J[j].y, 0), new Vector3(J[jx].x, J[jx].y), Color.yellow, 12f);
                     return true;
                 }
             }
@@ -104,8 +150,7 @@ public class FighterManager : MonoBehaviour {
         }
 
         if (count % 2 == 1)
-        {
-            //Debug.Log(v.x + " " + v.y);
+        { 
             Debug.DrawLine(new Vector3(v.x, v.y, 0), new Vector3(v.x, v.y-0.1f, 0), Color.cyan, 1f);
             return true;
         }
@@ -122,7 +167,7 @@ public class FighterManager : MonoBehaviour {
 
         if (count % 2 == 1)
         {
-            Debug.Log(v.x + " " + v.y);
+            Debug.DrawLine(new Vector3(v.x, v.y, 0), new Vector3(v.x, v.y - 0.1f, 0), Color.cyan, 1f);
             return true;
         }
 

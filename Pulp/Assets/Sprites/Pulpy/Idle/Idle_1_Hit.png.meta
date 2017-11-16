@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 6e6d1b0f57a663e4182f8ab7a10d0eec
-timeCreated: 1510788999
+timeCreated: 1510813604
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -77,7 +77,36 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: 106, y: -200}
+      - {x: 105, y: -177}
+      - {x: 104, y: -167}
+      - {x: 105, y: -133}
+      - {x: 105, y: 51}
+      - {x: 103, y: 122}
+      - {x: 95, y: 165}
+      - {x: 80, y: 176}
+      - {x: 64, y: 182}
+      - {x: 13, y: 186}
+      - {x: -35, y: 186}
+      - {x: -56, y: 184}
+      - {x: -65, y: 184}
+      - {x: -74, y: 167}
+      - {x: -74, y: 142}
+      - {x: -69, y: 98}
+      - {x: -68, y: 2}
+      - {x: -68, y: -62}
+      - {x: -69, y: -138}
+      - {x: -73, y: -238}
+      - {x: -73, y: -250}
+      - {x: -59, y: -265}
+      - {x: -38, y: -274}
+      - {x: -2, y: -279}
+      - {x: 8, y: -280}
+      - {x: 80, y: -280}
+      - {x: 97, y: -271}
+      - {x: 103, y: -265}
+      - {x: 106, y: -243}
     physicsShape: []
   spritePackingTag: 
   userData: 

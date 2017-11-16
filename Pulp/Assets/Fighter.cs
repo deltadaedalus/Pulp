@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Base class for fighter, TODO: subclass to different characters
 public class Fighter : MonoBehaviour {
     public int playerNum;
     public SpriteRenderer hurtSprite;
@@ -37,13 +38,12 @@ public class Fighter : MonoBehaviour {
 
         if (stateHash != prevStateHash)
         {
-            StateChange();
+            StateChange(prevStateHash, stateHash);
         }
 
         input.Check();
         FeedMachine();
         MoveBehaviour();
-        UpdateColliders();
     }
 
     void FeedMachine()
@@ -102,62 +102,21 @@ public class Fighter : MonoBehaviour {
         }
 
 
-        //expire inputs
-        //if (dir == 1 && )
-
-
-        /*Old
-        if (Input.GetAxis("Horizontal") != 0)
-            if ((Input.GetAxis("Horizontal") > 0) == (dir == -1))
-            {
-                animator.SetTrigger("Back");
-                animator.SetFloat("ForwardTime", 0f);
-                Flip();
-            }
-            else
-            {
-                animator.SetTrigger("Forward");
-                animator.SetFloat("ForwardTime", animator.GetFloat("ForwardTime") + Time.deltaTime);
-            }
-        else
-            animator.SetFloat("ForwardTime", 0f);
-
-        animator.SetBool("Crouch", Input.GetKey("down"));
-        animator.SetBool("Up", Input.GetKey("up"));
-
-        animator.SetFloat("Vertical", Input.GetAxis("Vertical"));
-        animator.SetFloat("Horizontal", Input.GetAxis("Horizontal") * dir);
-
-        if (Input.GetKeyDown("z"))
-            animator.SetTrigger("Attack");
-        if (Input.GetKeyDown("c"))
-        {
-            animator.SetTrigger("Block");
-            animator.ResetTrigger("~Block");
-        }
-        if (Input.GetKeyUp("c"))
-        {
-            animator.SetTrigger("~Block");
-            animator.ResetTrigger("Block");
-        }
-        if (Input.GetKeyDown("space"))
-            animator.SetTrigger("Jump");
-            */
+        //optional TODO if things are working weird: cause input triggers to expire by checking if input times are too long ago
     }
 
     void MoveBehaviour()
     {
-
+        //TODO: apply physics pushes to attached rigidbody component based on inputs
     }
 
-    void UpdateColliders()
+    //Handles changs from state to state in the animator.  Possible TODO: rejigger to work with Ash's library for doing exactly this
+    void StateChange(int prev, int next)
     {
-
-    }
-
-    void StateChange()
-    {
-
+        if (next == Animator.StringToHash("Jump"))
+        {
+            //TODO: Apply vertical physics push to attached rigidbody
+        }
     }
 
     void Flip()
@@ -167,6 +126,20 @@ public class Fighter : MonoBehaviour {
         hitSprite.flipX = (dir == -1);
         hurtSprite.flipX = (dir == -1);
         blockSprite.flipX = (dir == -1);
+    }
+
+    public void HurtBehaviour(Fighter hitFighter)
+    {
+        if (stateHash == Animator.StringToHash("H_Attack_1"))
+        {
+            //TODO: knockback
+        }
+        //TODO: other attacks
+    }
+
+    public void HitBehaviour(Fighter hurtFighter)
+    {
+        animator.SetTrigger("Hit");
     }
 }
 
