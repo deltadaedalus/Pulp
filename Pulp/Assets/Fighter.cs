@@ -5,9 +5,9 @@ using UnityEngine;
 //Base class for fighter, TODO: subclass to different characters
 public class Fighter : MonoBehaviour {
     public int playerNum;
-    public SpriteRenderer hurtSprite;
-    public SpriteRenderer hitSprite;
-    public SpriteRenderer blockSprite;
+    [HideInInspector] public SpriteRenderer hurtSprite;
+    [HideInInspector] public SpriteRenderer hitSprite;
+    [HideInInspector] public SpriteRenderer blockSprite;
 
     Animator animator;
     SpriteRenderer sprite;
@@ -16,7 +16,7 @@ public class Fighter : MonoBehaviour {
     int stateHash;
     InputBuffer input;
 
-    int dir;
+    [HideInInspector] public int dir;
 
 	// Use this for initialization
 	void Start () {
@@ -33,17 +33,21 @@ public class Fighter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        CheckStateChange(); //TODO: Ash lib
+        input.Check();
+        FeedMachine();
+        MoveBehaviour();
+    }
+
+    void CheckStateChange()
+    {
         prevStateHash = stateHash;
-        stateHash = animator.GetCurrentAnimatorStateInfo(0).nameHash;
+        stateHash = animator.GetCurrentAnimatorStateInfo(0).shortNameHash;
 
         if (stateHash != prevStateHash)
         {
             StateChange(prevStateHash, stateHash);
         }
-
-        input.Check();
-        FeedMachine();
-        MoveBehaviour();
     }
 
     void FeedMachine()
@@ -132,14 +136,29 @@ public class Fighter : MonoBehaviour {
     {
         if (stateHash == Animator.StringToHash("H_Attack_1"))
         {
+            hitFighter.animator.SetTrigger("Hit");
+            //TODO: knockback
+        } else if (stateHash == Animator.StringToHash("H_Attack_2"))
+        {
+            hitFighter.animator.SetTrigger("Hit");
             //TODO: knockback
         }
-        //TODO: other attacks
+        else if (stateHash == Animator.StringToHash("H_Attack_3"))
+        {
+            hitFighter.animator.SetTrigger("HardHit");
+            //TODO: knockback
+        }
+
+        if (hitFighter.dir == dir) //Probably temporary?
+            hitFighter.Flip();
+
+        //TODO: other attacks?
+        //TODO later: Integrate Ash's library so we aren't doing a big if-else
     }
 
     public void HitBehaviour(Fighter hurtFighter)
     {
-        animator.SetTrigger("Hit");
+        //TODO: probably nothing for now
     }
 }
 
