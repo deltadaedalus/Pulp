@@ -15,13 +15,16 @@ public class Fighter : MonoBehaviour {
     int prevStateHash;
     int stateHash;
     InputBuffer input;
-
+    Rigidbody2D body;
+    float speed;
     [HideInInspector] public int dir;
 
 	// Use this for initialization
 	void Start () {
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+        body = gameObject.GetComponent<Rigidbody2D>();
+        speed = 8.0f;
         hurtSprite = transform.Find("Hurt").gameObject.GetComponent<SpriteRenderer>();
         hitSprite = transform.Find("Hit").gameObject.GetComponent<SpriteRenderer>();
         blockSprite = transform.Find("Block").gameObject.GetComponent<SpriteRenderer>();
@@ -55,6 +58,7 @@ public class Fighter : MonoBehaviour {
         //send inputs
         animator.SetBool("Block", input.block.IsActive());
         animator.SetBool("Down", input.down.IsActive());
+        animator.SetFloat("Horizontal", input.right.GetValue() * dir);
 
         if (input.attack.CountPress() > 0 && !animator.GetBool("Attack"))
         {
@@ -82,7 +86,7 @@ public class Fighter : MonoBehaviour {
             if (input.right.CountPress() > 0)
             {
                 input.right.ConsumePress();
-                animator.SetTrigger("Forward");
+                animator.SetTrigger("Forward");              
             }
             if (input.left.CountPress() > 0)
             {
@@ -103,6 +107,7 @@ public class Fighter : MonoBehaviour {
                 animator.SetTrigger("Back");
                 Flip();
             }
+            
         }
 
 
@@ -111,6 +116,52 @@ public class Fighter : MonoBehaviour {
 
     void MoveBehaviour()
     {
+        if (stateHash == Animator.StringToHash("Walk"))
+        {
+
+            if (input.right.GetValue() > 0.99)
+            {
+                body.AddForce(new Vector2(speed/2, 0), 0);
+            }
+            else if (input.right.GetValue() < -0.5)
+            {
+                body.AddForce(new Vector2(0 - (speed/2), 0), 0);
+            }
+            else if ((input.right.GetValue() > -0.5) && (input.right.GetValue() < 0.5))
+            {
+                if (body.velocity.x > 0)
+                {
+                    body.AddForce(new Vector2(0 - speed/2, 0), 0);
+                }
+                else if (body.velocity.x < 0)
+                {
+                    body.AddForce(new Vector2(speed/2, 0), 0);
+                }
+            }
+        }
+        if (stateHash == Animator.StringToHash("Run"))
+        {
+            if (input.right.GetValue() > 0.5)
+            {
+                body.AddForce(new Vector2(speed, 0), 0);
+            }
+            else if (input.right.GetValue() < -0.5)
+            {
+                body.AddForce(new Vector2(0 - (speed), 0), 0);
+            }
+            else if ((input.right.GetValue() > -0.5) && (input.right.GetValue() < 0.5))
+            {
+                if (body.velocity.x > 0)
+                {
+                    body.AddForce(new Vector2(0 - speed, 0), 0);
+                }
+                else if (body.velocity.x < 0)
+                {
+                    body.AddForce(new Vector2(speed, 0), 0);
+                }
+            }
+        }
+        
         //TODO: apply physics pushes to attached rigidbody component based on inputs
     }
 
