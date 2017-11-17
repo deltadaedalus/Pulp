@@ -17,6 +17,7 @@ public class Fighter : MonoBehaviour {
     InputBuffer input;
     Rigidbody2D body;
     float speed;
+    float jumpSpeed;
     [HideInInspector] public int dir;
 
 	// Use this for initialization
@@ -24,7 +25,8 @@ public class Fighter : MonoBehaviour {
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         body = gameObject.GetComponent<Rigidbody2D>();
-        speed = 8.0f;
+        speed = 12.0f;
+        jumpSpeed = 30f;
         hurtSprite = transform.Find("Hurt").gameObject.GetComponent<SpriteRenderer>();
         hitSprite = transform.Find("Hit").gameObject.GetComponent<SpriteRenderer>();
         blockSprite = transform.Find("Block").gameObject.GetComponent<SpriteRenderer>();
@@ -118,41 +120,46 @@ public class Fighter : MonoBehaviour {
         if (stateHash == Animator.StringToHash("Walk"))
         {
 
-            if (input.right.GetValue() > 0.99)
+            if (input.right.GetValue() > 0.5)
             {
-                body.AddForce(new Vector2(speed/2, 0), 0);
+                if (body.velocity.x < 8)
+                {
+                    body.AddForce(new Vector2(speed, 0), 0);
+                }
             }
             else if (input.right.GetValue() < -0.5)
             {
-                body.AddForce(new Vector2(0 - (speed/2), 0), 0);
+                if (body.velocity.x > -8)
+                {
+                    body.AddForce(new Vector2(0 - (speed), 0), 0);
+                }
             }
             else if ((input.right.GetValue() > -0.5) && (input.right.GetValue() < 0.5))
             {
-                if (body.velocity.x > 0)
-                {
-                    body.AddForce(new Vector2(0 - speed/2, 0), 0);
-                }
-                else if (body.velocity.x < 0)
-                {
-                    body.AddForce(new Vector2(speed/2, 0), 0);
-                }
+                body.velocity = new Vector2(0,0);
             }
         }
         if (stateHash == Animator.StringToHash("Run"))
         {
             if (input.right.GetValue() > 0.5)
             {
-                body.AddForce(new Vector2(speed, 0), 0);
+                if (body.velocity.x < 15)
+                {
+                    body.AddForce(new Vector2(speed / 4, 0), 0);
+                }
             }
             else if (input.right.GetValue() < -0.5)
             {
-                body.AddForce(new Vector2(0 - (speed), 0), 0);
+                if (body.velocity.x > -15)
+                {
+                    body.AddForce(new Vector2(0 - (speed / 4), 0), 0);
+                }
             }
             else if ((input.right.GetValue() > -0.5) && (input.right.GetValue() < 0.5))
             {
                 if (body.velocity.x > 0)
                 {
-                    body.AddForce(new Vector2(0 - speed, 0), 0);
+                    body.AddForce(new Vector2(0 - (speed), 0), 0);
                 }
                 else if (body.velocity.x < 0)
                 {
@@ -161,7 +168,7 @@ public class Fighter : MonoBehaviour {
             }
         }
         
-        //TODO: apply physics pushes to attached rigidbody component based on inputs
+        //TODO: Refine movement and add a more natural drag
     }
 
     //Handles changs from state to state in the animator.  Possible TODO: rejigger to work with Ash's library for doing exactly this
@@ -169,7 +176,7 @@ public class Fighter : MonoBehaviour {
     {
         if (next == Animator.StringToHash("Jump"))
         {
-            //TODO: Apply vertical physics push to attached rigidbody
+            body.AddForce(new Vector2(0, -500), 0);
         }
     }
 
