@@ -11,13 +11,14 @@ public class Fighter : MonoBehaviour {
 
     Animator animator;
     SpriteRenderer sprite;
-    bool canJump = true;
+    int jumps = 2;
     int prevStateHash;
     int stateHash;
     InputBuffer input;
     Rigidbody2D body;
     float speed;
     float jumpSpeed;
+    bool canTurn = true;
     [HideInInspector] public int dir;
 
 	// Use this for initialization
@@ -25,14 +26,14 @@ public class Fighter : MonoBehaviour {
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         body = gameObject.GetComponent<Rigidbody2D>();
-        speed = 12.0f;
-        jumpSpeed = 30f;
+        speed = 5;
+        jumpSpeed = 10;
         hurtSprite = transform.Find("Hurt").gameObject.GetComponent<SpriteRenderer>();
         hitSprite = transform.Find("Hit").gameObject.GetComponent<SpriteRenderer>();
         blockSprite = transform.Find("Block").gameObject.GetComponent<SpriteRenderer>();
         dir = 1;
-        canJump = true;
-
+        jumps = 2;
+        canTurn = true;
         input = new InputBuffer(playerNum.ToString());
     }
 	
@@ -68,7 +69,7 @@ public class Fighter : MonoBehaviour {
             animator.SetTrigger("Attack");
         }
 
-        while (input.jump.CountPress() > 0 && !canJump)
+        while (input.jump.CountPress() > 0 && (jumps == 0))
             input.jump.ConsumePress();
         if (input.jump.CountPress() > 0 && !animator.GetBool("Jump"))
         {
@@ -96,6 +97,11 @@ public class Fighter : MonoBehaviour {
                 animator.SetBool("Forward", false);
                 Flip();
             }
+            else
+            {
+                animator.SetBool("Forward", false);
+                animator.SetBool("Back", false);
+            }
         } else
         {
             if(input.right.GetValue() < 0)
@@ -109,6 +115,11 @@ public class Fighter : MonoBehaviour {
                 animator.SetBool("Forward", false);
                 Flip();
             }
+            else
+            {
+                animator.SetBool("Forward", false);
+                animator.SetBool("Back", false);
+            }
         }
 
 
@@ -117,40 +128,46 @@ public class Fighter : MonoBehaviour {
 
     void MoveBehaviour()
     {
-        if (stateHash == Animator.StringToHash("Walk"))
+        if ((stateHash == Animator.StringToHash("Walk")) || (stateHash == Animator.StringToHash("In_Air")) || (stateHash == Animator.StringToHash("J_N_Attack")) || (stateHash == Animator.StringToHash("J_U_Attack")) || (stateHash == Animator.StringToHash("J_F_Attack")) || (stateHash == Animator.StringToHash("J_B_Attack")) || (stateHash == Animator.StringToHash("J_D_Attack")))
         {
-
             if (input.right.GetValue() > 0.5)
             {
-                if (body.velocity.x < 8)
+                if (body.velocity.x < 5)
                 {
                     body.AddForce(new Vector2(speed, 0), 0);
                 }
             }
             else if (input.right.GetValue() < -0.5)
             {
-                if (body.velocity.x > -8)
+                if (body.velocity.x > -5)
                 {
                     body.AddForce(new Vector2(0 - (speed), 0), 0);
                 }
             }
             else if ((input.right.GetValue() > -0.5) && (input.right.GetValue() < 0.5))
             {
-                body.velocity = new Vector2(0,0);
+                if (body.velocity.x > 0)
+                {
+                    body.AddForce(new Vector2(0 - speed/2, 0), 0);
+                }
+                else if (body.velocity.x < 0)
+                {
+                    body.AddForce(new Vector2(speed / 2, 0), 0);
+                }
             }
         }
         if (stateHash == Animator.StringToHash("Run"))
         {
             if (input.right.GetValue() > 0.5)
             {
-                if (body.velocity.x < 15)
+                if (body.velocity.x < 10)
                 {
                     body.AddForce(new Vector2(speed / 4, 0), 0);
                 }
             }
             else if (input.right.GetValue() < -0.5)
             {
-                if (body.velocity.x > -15)
+                if (body.velocity.x > -10)
                 {
                     body.AddForce(new Vector2(0 - (speed / 4), 0), 0);
                 }
@@ -176,17 +193,39 @@ public class Fighter : MonoBehaviour {
     {
         if (next == Animator.StringToHash("Jump"))
         {
-            body.AddForce(new Vector2(0, -500), 0);
+            canTurn = false;
+            if (jumps != 0)
+            {
+                jumps--;
+                body.velocity = new Vector2(body.velocity.x, 0);
+                body.AddForce(new Vector2(0, jumpSpeed), ForceMode2D.Impulse);
+            }
+        }
+        if (next == Animator.StringToHash("In_Air"))
+        {
+            canTurn = false;
+            if (jumps == 2)
+            {
+                jumps = 1;
+            }
+        }
+        if (next == Animator.StringToHash("Landed"))
+        {
+            canTurn = true;
+            jumps = 2;
         }
     }
 
     void Flip()
     {
-        dir = -dir;
-        sprite.flipX = (dir == -1);
-        hitSprite.flipX = (dir == -1);
-        hurtSprite.flipX = (dir == -1);
-        blockSprite.flipX = (dir == -1);
+        if (canTurn)
+        {
+            dir = -dir;
+            sprite.flipX = (dir == -1);
+            hitSprite.flipX = (dir == -1);
+            hurtSprite.flipX = (dir == -1);
+            blockSprite.flipX = (dir == -1);
+        }
     }
 
     public void HurtBehaviour(Fighter hitFighter)
