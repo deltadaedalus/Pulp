@@ -61,6 +61,7 @@ public class Fighter : MonoBehaviour {
         //send inputs
         animator.SetBool("Block", input.block.IsActive());
         animator.SetBool("Down", input.down.IsActive());
+        animator.SetBool("Up", input.up.IsActive());
         animator.SetFloat("Horizontal", input.right.GetValue() * dir);
 
         if (input.attack.CountPress() > 0 && !animator.GetBool("Attack"))
@@ -130,6 +131,15 @@ public class Fighter : MonoBehaviour {
     {
         if ((stateHash == Animator.StringToHash("Walk")) || (stateHash == Animator.StringToHash("In_Air")) || (stateHash == Animator.StringToHash("J_N_Attack")) || (stateHash == Animator.StringToHash("J_U_Attack")) || (stateHash == Animator.StringToHash("J_F_Attack")) || (stateHash == Animator.StringToHash("J_B_Attack")) || (stateHash == Animator.StringToHash("J_D_Attack")))
         {
+            if(animator.GetBool("Grounded") != true)
+            {
+                if(input.down.IsActive())
+                {
+                    if (body.velocity.y > -1)
+                        body.velocity = new Vector2(body.velocity.x, 0);
+                        body.AddForce(new Vector2(0, -1), ForceMode2D.Impulse);
+                }
+            }
             if (input.right.GetValue() > 0.5)
             {
                 if (body.velocity.x < 5)
@@ -238,12 +248,44 @@ public class Fighter : MonoBehaviour {
         {
             hitFighter.animator.SetTrigger("Hit");
             //TODO: knockback
-        }
-        else if (stateHash == Animator.StringToHash("H_Attack_3"))
+        } else if (stateHash == Animator.StringToHash("H_Attack_3"))
+        {
+            hitFighter.animator.SetTrigger("HardHit");
+            //TODO: knockback
+        } else if (stateHash == Animator.StringToHash("L_Attack_1"))
+        {
+            hitFighter.animator.SetTrigger("Hit");
+            //TODO: knockback
+        } else if (stateHash == Animator.StringToHash("L_Attack_2"))
+        {
+            hitFighter.animator.SetTrigger("Hit");
+            //TODO: knockback
+        } else if (stateHash == Animator.StringToHash("L_Attack_3"))
+        {
+            hitFighter.animator.SetTrigger("HardHit");
+            //TODO: knockback
+        } else if (stateHash == Animator.StringToHash("J_N_Attack"))
+        {
+            hitFighter.animator.SetTrigger("Hit");
+            //TODO: knockback
+        } else if (stateHash == Animator.StringToHash("J_F_Attack"))
+        {
+            hitFighter.animator.SetTrigger("HardHit");
+            //TODO: knockback
+        } else if (stateHash == Animator.StringToHash("J_B_Attack"))
+        {
+            hitFighter.animator.SetTrigger("HardHit");
+            //TODO: knockback
+        } else if (stateHash == Animator.StringToHash("J_D_Attack"))
+        {
+            hitFighter.animator.SetTrigger("HardHit");
+            //TODO: knockback
+        } else if (stateHash == Animator.StringToHash("J_U_Attack"))
         {
             hitFighter.animator.SetTrigger("HardHit");
             //TODO: knockback
         }
+
 
         if (hitFighter.dir == dir) //Probably temporary?
             hitFighter.Flip();
@@ -255,6 +297,27 @@ public class Fighter : MonoBehaviour {
     public void HitBehaviour(Fighter hurtFighter)
     {
         //TODO: probably nothing for now
+    }
+
+    public void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "Platform")
+        {
+            animator.SetBool("Grounded", true);
+        }
+
+        if (col.gameObject.tag == "Fighter")
+        {
+            jumps++;
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "Platform")
+        {
+            animator.SetBool("Grounded", false);
+        }
     }
 }
 
@@ -296,7 +359,7 @@ class InputBuffer
 
 class TrackedInput
 {
-    float buffer = 0.5f;    //Amount of time in seconds during which an input exists before auto-consume
+    float buffer = 0.1f;    //Amount of time in seconds during which an input exists before auto-consume
 
     string axis;    //Input axis this input is tied to
     float cutoff;   //Threshold above which this input is considered active
