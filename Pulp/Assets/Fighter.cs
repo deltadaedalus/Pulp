@@ -83,31 +83,30 @@ public class Fighter : MonoBehaviour {
 
         if (dir == 1)
         {
-            if (input.right.CountPress() > 0)
+            if (input.right.GetValue() > 0)
             {
-                input.right.ConsumePress();
-                animator.SetTrigger("Forward");              
+                animator.SetBool("Forward", true);
+                animator.SetBool("Back", false);
             }
-            if (input.left.CountPress() > 0)
+            else if (input.right.GetValue() < 0)
             {
-                input.left.ConsumePress();
-                animator.SetTrigger("Back");
+                animator.SetBool("Back", true);
+                animator.SetBool("Forward", false);
                 Flip();
             }
         } else
         {
-            if (input.left.CountPress() > 0)
+            if(input.right.GetValue() < 0)
             {
-                input.left.ConsumePress();
-                animator.SetTrigger("Forward");
+                animator.SetBool("Forward", true);
+                animator.SetBool("Back", false);
             }
-            if (input.right.CountPress() > 0)
+            else if (input.right.GetValue() > 0)
             {
-                input.right.ConsumePress();
-                animator.SetTrigger("Back");
+                animator.SetBool("Back", true);
+                animator.SetBool("Forward", false);
                 Flip();
             }
-            
         }
 
 
