@@ -287,7 +287,7 @@ public class Fighter : MonoBehaviour {
 
         hitFighter.Damage(currentState.damage);
         Vector2 knock = currentState.knockback;
-        knock.x *= dir;
+        knock.x *= sprite.flipX ? -1.0f : 1.0f;
         hitFighter.body.AddForce(knock, ForceMode2D.Impulse);
 
 
