@@ -50,13 +50,14 @@ public class FighterManager : MonoBehaviour {
 
                 //Check collisions
                 bool AHurtB = ahurt.gameObject.activeInHierarchy && bhit.gameObject.activeInHierarchy
-                    && spriteCollision(ahurt.sprite, bhit.sprite, aPos, bPos, fighters[a].dir, fighters[b].dir);
+                    && spriteCollision(ahurt.sprite, bhit.sprite, aPos, bPos, fighters[a].dir, -fighters[b].dir);
                 bool ABlockedByB = ahurt.gameObject.activeInHierarchy && bblock.gameObject.activeInHierarchy
-                    && spriteCollision(ahurt.sprite, bblock.sprite, aPos, bPos, fighters[a].dir, fighters[b].dir);
+                    && spriteCollision(ahurt.sprite, bblock.sprite, aPos, bPos, fighters[a].dir, -fighters[b].dir);
                 bool BHurtA = bhurt.gameObject.activeInHierarchy && ahit.gameObject.activeInHierarchy
-                    && spriteCollision(bhurt.sprite, ahit.sprite, aPos, bPos, fighters[b].dir, fighters[a].dir);
+                    && spriteCollision(bhurt.sprite, ahit.sprite, aPos, bPos, -fighters[b].dir, fighters[a].dir);
                 bool BBlockedByA = bhurt.gameObject.activeInHierarchy && ablock.gameObject.activeInHierarchy
-                    && spriteCollision(bhurt.sprite, ablock.sprite, aPos, bPos, fighters[b].dir, fighters[a].dir);
+                    && spriteCollision(bhurt.sprite, ablock.sprite, aPos, bPos, -fighters[b].dir, fighters[a].dir);
+                Debug.Log(AHurtB + " " + ABlockedByB + " " + BHurtA + " " + BBlockedByA);
 
                 //Fire hit events
                 if (AHurtB && !ABlockedByB && !colStates[a, b].hurt_hit)
