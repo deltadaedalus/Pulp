@@ -399,11 +399,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114473017376217184, guid: 4fde45cced44bc846a3d515a5cdeefc1,
-        type: 2}
-      propertyPath: playerNum
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4fde45cced44bc846a3d515a5cdeefc1, type: 2}
   m_IsPrefabParent: 0
@@ -2684,6 +2679,11 @@ Prefab:
     - target: {fileID: 4109688646506988, guid: c3c24cf591dfee74f9ffba0d5ad2f52b, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114667675067608740, guid: c3c24cf591dfee74f9ffba0d5ad2f52b,
+        type: 2}
+      propertyPath: states.Array.data[14].damage
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c3c24cf591dfee74f9ffba0d5ad2f52b, type: 2}

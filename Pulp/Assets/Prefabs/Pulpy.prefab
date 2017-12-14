@@ -259,29 +259,57 @@ MonoBehaviour:
   maxHealth: 0
   states:
   - name: H_Attack_1
-    damage: 0
+    damage: 2
     knockback: {x: 0.5, y: 0}
     heavy: 0
   - name: H_Attack_2
-    damage: 0
+    damage: 3
     knockback: {x: 0.5, y: 0}
     heavy: 0
   - name: H_Attack_3
-    damage: 0
-    knockback: {x: 0, y: 6}
+    damage: 5
+    knockback: {x: 6, y: 2}
     heavy: 1
   - name: L_Attack_1
-    damage: 0
+    damage: 2
     knockback: {x: 0.1, y: 0}
     heavy: 0
   - name: L_Attack_2
-    damage: 0
+    damage: 3
     knockback: {x: 0.1, y: 0}
     heavy: 0
   - name: L_Attack_3
+    damage: 6
+    knockback: {x: 2, y: 10}
+    heavy: 1
+  - name: Jump
     damage: 0
-    knockback: {x: 2, y: 0}
+    knockback: {x: 0, y: 0}
     heavy: 0
+  - name: J_U_Attack
+    damage: 10
+    knockback: {x: 0, y: 15}
+    heavy: 1
+  - name: J_N_Attack
+    damage: 5
+    knockback: {x: 5, y: 0}
+    heavy: 0
+  - name: J_D_Attack
+    damage: 15
+    knockback: {x: 0, y: -15}
+    heavy: 1
+  - name: J_F_Attack
+    damage: 0
+    knockback: {x: 0, y: -15}
+    heavy: 0
+  - name: J_B_Attack
+    damage: 18
+    knockback: {x: -16, y: 0}
+    heavy: 1
+  - name: F_Special
+    damage: 20
+    knockback: {x: 20, y: 1}
+    heavy: 1
   - name: Jump
     damage: 0
     knockback: {x: 0, y: 0}
