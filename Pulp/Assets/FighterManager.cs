@@ -30,27 +30,33 @@ public class FighterManager : MonoBehaviour {
         {
             SpriteRenderer ahurt = fighters[a].hurtSprite;
             SpriteRenderer ahit = fighters[a].hitSprite;
+            SpriteRenderer ablock = fighters[a].blockSprite;
             Vector2 aPos = new Vector2(fighters[a].transform.position.x, fighters[a].transform.position.y);
 
             for (int b = a+1; b < fighters.Length; ++b)
             {
                 SpriteRenderer bhurt = fighters[b].hurtSprite;
                 SpriteRenderer bhit = fighters[b].hitSprite;
+                SpriteRenderer bblock = fighters[b].blockSprite;
                 Vector2 bPos = new Vector2(fighters[b].transform.position.x, fighters[b].transform.position.y);
 
                 //Check collisions
                 bool AHurtB = ahurt.gameObject.activeInHierarchy && bhit.gameObject.activeInHierarchy
                     && spriteCollision(ahurt.sprite, bhit.sprite, aPos, bPos, fighters[a].dir, fighters[b].dir);
+                bool ABlockedByB = ahurt.gameObject.activeInHierarchy && bblock.gameObject.activeInHierarchy
+                    && spriteCollision(ahurt.sprite, bblock.sprite, aPos, bPos, fighters[a].dir, fighters[b].dir);
                 bool BHurtA = bhurt.gameObject.activeInHierarchy && ahit.gameObject.activeInHierarchy
                     && spriteCollision(bhurt.sprite, ahit.sprite, aPos, bPos, fighters[b].dir, fighters[a].dir);
+                bool BBlockedByA = bhurt.gameObject.activeInHierarchy && ablock.gameObject.activeInHierarchy
+                    && spriteCollision(bhurt.sprite, ablock.sprite, aPos, bPos, fighters[b].dir, fighters[a].dir);
 
                 //Fire hit events
-                if (AHurtB && !colStates[a, b].hurt_hit)
+                if (AHurtB && !ABlockedByB && !colStates[a, b].hurt_hit)
                 {
                     fighters[a].HurtBehaviour(fighters[b]);
                     fighters[b].HitBehaviour(fighters[a]);
                 }
-                if (BHurtA && !colStates[b, a].hurt_hit)
+                if (BHurtA && !BBlockedByA && !colStates[b, a].hurt_hit)
                 {
                     fighters[b].HurtBehaviour(fighters[a]);
                     fighters[a].HitBehaviour(fighters[b]);

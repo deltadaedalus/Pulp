@@ -438,7 +438,15 @@ MonoBehaviour:
   hurtSprite: {fileID: 0}
   hitSprite: {fileID: 0}
   blockSprite: {fileID: 0}
+  maxHealth: 0
+  states: []
+  currentState:
+    name: 
+    damage: 0
+    knockback: {x: 0, y: 0, z: 0}
+    heavy: 0
   dir: 0
+  health: 0
 --- !u!212 &362929753
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -682,8 +690,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 410344669}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.046, y: -0.15, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.142, y: -0.016, z: 0}
+  m_LocalScale: {x: 1.0625001, y: 1.1931252, z: 1}
   m_Children: []
   m_Father: {fileID: 1834585788}
   m_RootOrder: 3
@@ -2512,7 +2520,15 @@ MonoBehaviour:
   hurtSprite: {fileID: 0}
   hitSprite: {fileID: 0}
   blockSprite: {fileID: 0}
+  maxHealth: 0
+  states: []
+  currentState:
+    name: 
+    damage: 0
+    knockback: {x: 0, y: 0, z: 0}
+    heavy: 0
   dir: 0
+  health: 0
 --- !u!4 &1834585788
 Transform:
   m_ObjectHideFlags: 0
@@ -2520,8 +2536,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1834585782}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.05, y: 1.09, z: 0}
-  m_LocalScale: {x: 1, y: 0.99999, z: 1}
+  m_LocalPosition: {x: 2.92, y: 0.98, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 431833514}
   - {fileID: 605615934}

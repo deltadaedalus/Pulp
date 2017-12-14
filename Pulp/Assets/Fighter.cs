@@ -2,12 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class FighterState
+{
+    public string name;
+    public float damage;
+    public Vector3 knockback;
+    public bool heavy;
+}
+
 //Base class for fighter, TODO: subclass to different characters
 public class Fighter : MonoBehaviour {
     public int playerNum;
     [HideInInspector] public SpriteRenderer hurtSprite;
     [HideInInspector] public SpriteRenderer hitSprite;
     [HideInInspector] public SpriteRenderer blockSprite;
+    public float maxHealth;
+
+    public List<FighterState> states;
+    [HideInInspector] public FighterState currentState;
 
     Animator animator;
     SpriteRenderer sprite;
@@ -20,6 +33,8 @@ public class Fighter : MonoBehaviour {
     float jumpSpeed;
     bool canTurn = true;
     [HideInInspector] public int dir;
+    [HideInInspector] public float health;
+
 
 	// Use this for initialization
 	void Start () {
@@ -201,7 +216,15 @@ public class Fighter : MonoBehaviour {
     //Handles changs from state to state in the animator.  Possible TODO: rejigger to work with Ash's library for doing exactly this
     void StateChange(int prev, int next)
     {
-        if (next == Animator.StringToHash("Jump"))
+        FighterState lastState = currentState;
+        currentState = states.Find(x => Animator.StringToHash(x.name) == next);
+        if (currentState == null)
+        {
+            Debug.Log("Undefined state!");
+            return;
+        }
+
+        if (currentState.name == "Jump")
         {
             canTurn = false;
             if (jumps != 0)
@@ -211,7 +234,7 @@ public class Fighter : MonoBehaviour {
                 body.AddForce(new Vector2(0, jumpSpeed), ForceMode2D.Impulse);
             }
         }
-        if (next == Animator.StringToHash("In_Air"))
+        if (currentState.name == "In_Air")
         {
             canTurn = false;
             if (jumps == 2)
@@ -219,7 +242,7 @@ public class Fighter : MonoBehaviour {
                 jumps = 1;
             }
         }
-        if (next == Animator.StringToHash("Landed"))
+        if (currentState.name == "Landed")
         {
             canTurn = true;
             jumps = 2;
@@ -238,65 +261,45 @@ public class Fighter : MonoBehaviour {
         }
     }
 
+    void Damage(float dmg)
+    {
+        health -= dmg;
+        if (health <= 0)
+        {
+            health = 0;
+            //TODO: death animations?
+        }
+    }
+
     public void HurtBehaviour(Fighter hitFighter)
     {
-        if (stateHash == Animator.StringToHash("H_Attack_1"))
+        if (currentState == null)
         {
-            hitFighter.animator.SetTrigger("Hit");
-            //TODO: knockback
-        } else if (stateHash == Animator.StringToHash("H_Attack_2"))
-        {
-            hitFighter.animator.SetTrigger("Hit");
-            //TODO: knockback
-        } else if (stateHash == Animator.StringToHash("H_Attack_3"))
-        {
-            hitFighter.animator.SetTrigger("HardHit");
-            //TODO: knockback
-        } else if (stateHash == Animator.StringToHash("L_Attack_1"))
-        {
-            hitFighter.animator.SetTrigger("Hit");
-            //TODO: knockback
-        } else if (stateHash == Animator.StringToHash("L_Attack_2"))
-        {
-            hitFighter.animator.SetTrigger("Hit");
-            //TODO: knockback
-        } else if (stateHash == Animator.StringToHash("L_Attack_3"))
-        {
-            hitFighter.animator.SetTrigger("HardHit");
-            //TODO: knockback
-        } else if (stateHash == Animator.StringToHash("J_N_Attack"))
-        {
-            hitFighter.animator.SetTrigger("Hit");
-            //TODO: knockback
-        } else if (stateHash == Animator.StringToHash("J_F_Attack"))
-        {
-            hitFighter.animator.SetTrigger("HardHit");
-            //TODO: knockback
-        } else if (stateHash == Animator.StringToHash("J_B_Attack"))
-        {
-            hitFighter.animator.SetTrigger("HardHit");
-            //TODO: knockback
-        } else if (stateHash == Animator.StringToHash("J_D_Attack"))
-        {
-            hitFighter.animator.SetTrigger("HardHit");
-            //TODO: knockback
-        } else if (stateHash == Animator.StringToHash("J_U_Attack"))
-        {
-            hitFighter.animator.SetTrigger("HardHit");
-            //TODO: knockback
+            Debug.Log("Undefined state!");
+            return;
         }
+            
+
+        if (currentState.heavy)
+            hitFighter.animator.SetTrigger("HardHit");
+        else
+            hitFighter.animator.SetTrigger("Hit");
+
+        hitFighter.Damage(currentState.damage);
+        Vector2 knock = currentState.knockback;
+        knock.x *= dir;
+        hitFighter.body.AddForce(knock, ForceMode2D.Impulse);
 
 
         if (hitFighter.dir == dir) //Probably temporary?
             hitFighter.Flip();
 
         //TODO: other attacks?
-        //TODO later: Integrate Ash's library so we aren't doing a big if-else
     }
 
     public void HitBehaviour(Fighter hurtFighter)
     {
-        //TODO: probably nothing for now
+        
     }
 
     public void OnTriggerEnter2D(Collider2D col)
