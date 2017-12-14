@@ -5,6 +5,7 @@ using UnityEngine;
 public struct FighterColState
 {
     public bool hurt_hit;
+    public bool hurt_block;
 }
 
 public class FighterManager : MonoBehaviour {
@@ -71,9 +72,15 @@ public class FighterManager : MonoBehaviour {
                     fighters[a].HitBehaviour(fighters[b]);
                 }
 
+                if (ABlockedByB && !colStates[a, b].hurt_hit)
+                    fighters[a].BlockBehaviour(fighters[b]);
+
                 //Update contact states
                 colStates[a, b].hurt_hit = AHurtB;
                 colStates[b, a].hurt_hit = BHurtA;
+
+                colStates[a, b].hurt_block = ABlockedByB;
+                colStates[b, a].hurt_block = BBlockedByA;
             }
         }
     }

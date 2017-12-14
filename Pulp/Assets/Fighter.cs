@@ -155,18 +155,28 @@ public class Fighter : MonoBehaviour {
                         body.AddForce(new Vector2(0, -1), ForceMode2D.Impulse);
                 }
             }
+
+            if (true)//(Mathf.Abs(input.right.GetValue()) > 0.5)
+            {
+                float targetV = input.right.GetValue() * speed;
+                body.AddForce(new Vector2((targetV - body.velocity.x) / 30, 0), ForceMode2D.Impulse);
+            }
+            
+
+
+            /*
             if (input.right.GetValue() > 0.5)
             {
                 if (body.velocity.x < 5)
                 {
-                    body.AddForce(new Vector2(speed, 0), 0);
+                    body.AddForce(new Vector2((-speed - body.velocity.x) * (speed - body.velocity.x), 0), 0);
                 }
             }
             else if (input.right.GetValue() < -0.5)
             {
                 if (body.velocity.x > -5)
                 {
-                    body.AddForce(new Vector2(0 - (speed), 0), 0);
+                    body.AddForce(new Vector2(-(-speed - body.velocity.x) * (-speed - body.velocity.x), 0), 0);
                 }
             }
             else if ((input.right.GetValue() > -0.5) && (input.right.GetValue() < 0.5))
@@ -179,7 +189,7 @@ public class Fighter : MonoBehaviour {
                 {
                     body.AddForce(new Vector2(speed / 2, 0), 0);
                 }
-            }
+            }*/
         }
         if (stateHash == Animator.StringToHash("Run"))
         {
@@ -249,7 +259,7 @@ public class Fighter : MonoBehaviour {
         }
         if (currentState.name == "L_Attack_3")
         {
-            body.AddForce(currentState.knockback, ForceMode2D.Impulse);
+            body.AddForce(new Vector2(dir * 15, 0), ForceMode2D.Impulse);
         }
     }
 
@@ -299,6 +309,18 @@ public class Fighter : MonoBehaviour {
             hitFighter.Flip();
 
         //TODO: other attacks?
+    }
+
+    public void BlockBehaviour(Fighter blockedFighter)
+    {
+        if (currentState.heavy)
+        {
+            Vector2 knock = currentState.knockback;
+            knock.x *= sprite.flipX ? -1.0f : 1.0f;
+            knock /= 2;
+            blockedFighter.body.AddForce(knock, ForceMode2D.Impulse);
+            body.AddForce(-knock);
+        }
     }
 
     public void HitBehaviour(Fighter hurtFighter)
