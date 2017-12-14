@@ -7,7 +7,7 @@ public class FighterState
 {
     public string name;
     public float damage;
-    public Vector3 knockback;
+    public Vector2 knockback;
     public bool heavy;
 }
 
@@ -54,7 +54,7 @@ public class Fighter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        CheckStateChange(); //TODO: Ash lib
+        CheckStateChange();
         input.Check();
         FeedMachine();
         MoveBehaviour();
@@ -213,7 +213,7 @@ public class Fighter : MonoBehaviour {
         //TODO: Refine movement and add a more natural drag
     }
 
-    //Handles changs from state to state in the animator.  Possible TODO: rejigger to work with Ash's library for doing exactly this
+    //Handles changs from state to state in the animator.  
     void StateChange(int prev, int next)
     {
         FighterState lastState = currentState;
