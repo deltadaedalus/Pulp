@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -246,6 +246,10 @@ public class Fighter : MonoBehaviour {
         {
             canTurn = true;
             jumps = 2;
+        }
+        if (currentState.name == "L_Attack_3")
+        {
+            body.AddForce(currentState.knockback, ForceMode2D.Impulse);
         }
     }
 
