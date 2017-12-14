@@ -41,7 +41,7 @@ public class Fighter : MonoBehaviour {
         animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         body = gameObject.GetComponent<Rigidbody2D>();
-        speed = 5;
+        speed = 10;
         jumpSpeed = 10;
         hurtSprite = transform.Find("Hurt").gameObject.GetComponent<SpriteRenderer>();
         hitSprite = transform.Find("Hit").gameObject.GetComponent<SpriteRenderer>();

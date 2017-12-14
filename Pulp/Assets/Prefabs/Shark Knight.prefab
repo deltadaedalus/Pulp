@@ -115,7 +115,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1951374221750106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.09, z: 0}
+  m_LocalPosition: {x: 0, y: 1.17, z: 0}
   m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 1}
   m_Children:
   - {fileID: 4036460101756444}
@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5876e87a8cd32340b6e82d4228d38c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNum: 2
+  playerNum: 1
   hurtSprite: {fileID: 0}
   hitSprite: {fileID: 0}
   blockSprite: {fileID: 0}
@@ -281,6 +281,18 @@ MonoBehaviour:
   - name: L_Attack_3
     damage: 0
     knockback: {x: 2, y: 0}
+    heavy: 0
+  - name: Jump
+    damage: 0
+    knockback: {x: 0, y: 0}
+    heavy: 0
+  - name: In_Air
+    damage: 0
+    knockback: {x: 0, y: 0}
+    heavy: 0
+  - name: Landed
+    damage: 0
+    knockback: {x: 0, y: 0}
     heavy: 0
   currentState:
     name: 
@@ -391,7 +403,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 2fd7154d38e2c424f8cb7064e41ed8ea, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

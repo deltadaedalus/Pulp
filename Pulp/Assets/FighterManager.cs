@@ -10,17 +10,25 @@ public struct FighterColState
 public class FighterManager : MonoBehaviour {
     public Fighter[] fighters;
     FighterColState[,] colStates;
+    GameObject mainCamera;
 
 	// Use this for initialization
 	void Start () {
         colStates = new FighterColState[fighters.Length, fighters.Length];
+        mainCamera = GameObject.Find("Main Camera");
 
     }
 	
 	// Update is called once per frame
 	void Update () {
         DetectCollisions();
-	}
+        Vector3 avgPosition = new Vector3(0, 0, 0);
+        foreach (Fighter f in fighters)
+            avgPosition += f.transform.position;
+        avgPosition /= fighters.Length;
+
+        mainCamera.transform.position = new Vector3(avgPosition.x, avgPosition.y + 3, mainCamera.transform.position.z);
+    }
 
     int t = 0;
 
