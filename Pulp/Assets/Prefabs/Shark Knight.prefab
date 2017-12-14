@@ -94,7 +94,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4036460101756444
 Transform:
   m_ObjectHideFlags: 1
@@ -253,9 +253,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 1
-  hurtSprite: {fileID: 0}
-  hitSprite: {fileID: 0}
-  blockSprite: {fileID: 0}
+  hurtSprite: {fileID: 212920318714910780}
+  hitSprite: {fileID: 212568844797726930}
+  blockSprite: {fileID: 212953841556113628}
   maxHealth: 0
   states:
   - name: H_Attack_1
@@ -268,7 +268,7 @@ MonoBehaviour:
     heavy: 0
   - name: H_Attack_3
     damage: 5
-    knockback: {x: 2, y: 6}
+    knockback: {x: 2, y: 15}
     heavy: 1
   - name: L_Attack_1
     damage: 2
@@ -280,7 +280,7 @@ MonoBehaviour:
     heavy: 0
   - name: L_Attack_3
     damage: 5
-    knockback: {x: 0.5, y: 6}
+    knockback: {x: 0.5, y: 18}
     heavy: 1
   - name: Jump
     damage: 0
@@ -296,7 +296,7 @@ MonoBehaviour:
     heavy: 0
   - name: J_U_Attack
     damage: 10
-    knockback: {x: 0, y: 8}
+    knockback: {x: 0, y: 18}
     heavy: 1
   - name: J_B_Attack
     damage: 15
@@ -315,7 +315,7 @@ MonoBehaviour:
     knockback: {x: 0, y: -13}
     heavy: 1
   - name: F_Special
-    damage: 11
+    damage: 20
     knockback: {x: 20, y: 1}
     heavy: 1
   - name: DashAttack
@@ -327,7 +327,7 @@ MonoBehaviour:
     damage: 0
     knockback: {x: 0, y: 0}
     heavy: 0
-  dir: 0
+  dir: -1
   health: 0
 --- !u!212 &212382042569585642
 SpriteRenderer:
@@ -363,9 +363,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 950649c0ef7df79488b7c23db216047e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 052043340b7ddf54c84a6a34b0828cfe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 10, y: 10}
@@ -407,9 +407,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 29390efbe886e874bbb1b8d3ce1a05c5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a2a391db3c57a7448ae09606145faede, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 10, y: 10}
@@ -453,7 +453,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 29390efbe886e874bbb1b8d3ce1a05c5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 10, y: 10}
@@ -497,7 +497,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 29390efbe886e874bbb1b8d3ce1a05c5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 10, y: 10}
