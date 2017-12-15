@@ -58,6 +58,9 @@ public class Fighter : MonoBehaviour {
         input.Check();
         FeedMachine();
         MoveBehaviour();
+
+        if (transform.position.y < -10)
+            health = 0;
     }
 
     void CheckStateChange()
