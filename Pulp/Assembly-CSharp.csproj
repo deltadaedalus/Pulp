@@ -117,6 +117,7 @@
      <Compile Include="Assets\SabreCSG\Scripts\UI\VertexColorWindow.cs" />
      <Compile Include="Assets\SabreCSG\Scripts\UpdateUtility.cs" />
      <Compile Include="Assets\TestCollider.cs" />
+     <Compile Include="Assets\UIManager.cs" />
      <None Include="Assets\SabreCSG\Shaders\VertexTinted.shader" />
      <None Include="Assets\SabreCSG\Shaders\UINoAlpha.shader" />
      <None Include="Assets\SabreCSG\Shaders\Line.shader" />
