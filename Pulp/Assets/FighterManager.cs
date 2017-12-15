@@ -12,12 +12,16 @@ public class FighterManager : MonoBehaviour {
     public Fighter[] fighters;
     FighterColState[,] colStates;
     GameObject mainCamera;
+    bool ended;
+    float endTime;
 
 	// Use this for initialization
 	void Start () {
         colStates = new FighterColState[fighters.Length, fighters.Length];
         mainCamera = GameObject.Find("Main Camera");
 
+        ended = false;
+        endTime = 0;
     }
 	
 	// Update is called once per frame
@@ -29,6 +33,19 @@ public class FighterManager : MonoBehaviour {
         avgPosition /= fighters.Length;
 
         mainCamera.transform.position = new Vector3(avgPosition.x, avgPosition.y + 3, mainCamera.transform.position.z);
+
+        if ((fighters[0].health <= 0 || fighters[1].health <= 0) && (ended == false))
+        {
+            endTime = Time.time;
+            ended = true;
+        }
+
+        if (ended && Time.time - endTime > 5)
+        {
+            fighters[0].Restart();
+            fighters[1].Restart();
+            ended = false;
+        }
     }
 
     int t = 0;
@@ -58,7 +75,7 @@ public class FighterManager : MonoBehaviour {
                     && spriteCollision(bhurt.sprite, ahit.sprite, aPos, bPos, -fighters[b].dir, fighters[a].dir);
                 bool BBlockedByA = bhurt.gameObject.activeInHierarchy && ablock.gameObject.activeInHierarchy
                     && spriteCollision(bhurt.sprite, ablock.sprite, aPos, bPos, -fighters[b].dir, fighters[a].dir);
-                Debug.Log(AHurtB + " " + ABlockedByB + " " + BHurtA + " " + BBlockedByA);
+                //Debug.Log(AHurtB + " " + ABlockedByB + " " + BHurtA + " " + BBlockedByA);
 
                 //Fire hit events
                 if (AHurtB && !ABlockedByB && !colStates[a, b].hurt_hit)

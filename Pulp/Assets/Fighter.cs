@@ -33,7 +33,8 @@ public class Fighter : MonoBehaviour {
     float jumpSpeed;
     bool canTurn = true;
     [HideInInspector] public int dir;
-    [HideInInspector] public float health;
+    public float health;
+    Vector3 start;
 
 
 	// Use this for initialization
@@ -50,6 +51,8 @@ public class Fighter : MonoBehaviour {
         jumps = 2;
         canTurn = true;
         input = new InputBuffer(playerNum.ToString());
+        health = maxHealth;
+        start = transform.position;
     }
 	
 	// Update is called once per frame
@@ -273,6 +276,12 @@ public class Fighter : MonoBehaviour {
     public void HitBehaviour(Fighter hurtFighter)
     {
         
+    }
+
+    public void Restart()
+    {
+        health = maxHealth;
+        transform.position = start;
     }
 
     public void OnTriggerEnter2D(Collider2D col)
