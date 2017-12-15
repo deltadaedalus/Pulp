@@ -158,66 +158,10 @@ public class Fighter : MonoBehaviour {
 
             if (true)//(Mathf.Abs(input.right.GetValue()) > 0.5)
             {
-                float targetV = input.right.GetValue() * speed;
+                float targetV = input.right.GetValue() * speed * (stateHash == Animator.StringToHash("Run") ? 2.0f : 1.0f);
                 body.AddForce(new Vector2((targetV - body.velocity.x) / 30, 0), ForceMode2D.Impulse);
             }
             
-
-
-            /*
-            if (input.right.GetValue() > 0.5)
-            {
-                if (body.velocity.x < 5)
-                {
-                    body.AddForce(new Vector2((-speed - body.velocity.x) * (speed - body.velocity.x), 0), 0);
-                }
-            }
-            else if (input.right.GetValue() < -0.5)
-            {
-                if (body.velocity.x > -5)
-                {
-                    body.AddForce(new Vector2(-(-speed - body.velocity.x) * (-speed - body.velocity.x), 0), 0);
-                }
-            }
-            else if ((input.right.GetValue() > -0.5) && (input.right.GetValue() < 0.5))
-            {
-                if (body.velocity.x > 0)
-                {
-                    body.AddForce(new Vector2(0 - speed/2, 0), 0);
-                }
-                else if (body.velocity.x < 0)
-                {
-                    body.AddForce(new Vector2(speed / 2, 0), 0);
-                }
-            }*/
-        }
-        if (stateHash == Animator.StringToHash("Run"))
-        {
-            if (input.right.GetValue() > 0.5)
-            {
-                if (body.velocity.x < 10)
-                {
-                    body.AddForce(new Vector2(speed / 4, 0), 0);
-                }
-            }
-            else if (input.right.GetValue() < -0.5)
-            {
-                if (body.velocity.x > -10)
-                {
-                    body.AddForce(new Vector2(0 - (speed / 4), 0), 0);
-                }
-            }
-            else if ((input.right.GetValue() > -0.5) && (input.right.GetValue() < 0.5))
-            {
-                if (body.velocity.x > 0)
-                {
-                    body.AddForce(new Vector2(0 - (speed), 0), 0);
-                }
-                else if (body.velocity.x < 0)
-                {
-                    body.AddForce(new Vector2(speed, 0), 0);
-                }
-            }
         }
         
         //TODO: Refine movement and add a more natural drag
@@ -252,7 +196,7 @@ public class Fighter : MonoBehaviour {
                 jumps = 1;
             }
         }
-        if (currentState.name == "Landed")
+        if (currentState.name == "Landed" || currentState.name == "H_Stand")
         {
             canTurn = true;
             jumps = 2;
