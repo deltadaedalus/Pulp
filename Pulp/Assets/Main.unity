@@ -367,11 +367,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114473017376217184, guid: 4fde45cced44bc846a3d515a5cdeefc1,
-        type: 2}
-      propertyPath: states.Array.size
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 4718430442121244, guid: 4fde45cced44bc846a3d515a5cdeefc1, type: 2}
       propertyPath: m_LocalPosition.x
       value: 2.92
@@ -404,31 +399,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114473017376217184, guid: 4fde45cced44bc846a3d515a5cdeefc1,
-        type: 2}
-      propertyPath: states.Array.data[13].name
-      value: In_Air
-      objectReference: {fileID: 0}
-    - target: {fileID: 114473017376217184, guid: 4fde45cced44bc846a3d515a5cdeefc1,
-        type: 2}
-      propertyPath: states.Array.data[14].name
-      value: Landed
-      objectReference: {fileID: 0}
-    - target: {fileID: 212486673349298568, guid: 4fde45cced44bc846a3d515a5cdeefc1,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 2fd7154d38e2c424f8cb7064e41ed8ea, type: 2}
-    - target: {fileID: 212215939931830048, guid: 4fde45cced44bc846a3d515a5cdeefc1,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 2fd7154d38e2c424f8cb7064e41ed8ea, type: 2}
-    - target: {fileID: 212964902760394420, guid: 4fde45cced44bc846a3d515a5cdeefc1,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 2fd7154d38e2c424f8cb7064e41ed8ea, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4fde45cced44bc846a3d515a5cdeefc1, type: 2}
   m_IsPrefabParent: 0
@@ -1551,7 +1521,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 883250687}
-  m_LocalRotation: {x: 0.47443494, y: 0.24365312, z: -0.015972557, w: 0.8457479}
+  m_LocalRotation: {x: 0.47443497, y: 0.24365313, z: -0.015972558, w: 0.84574795}
   m_LocalPosition: {x: -1.53, y: 3.92, z: -6.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -3086,11 +3056,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114667675067608740, guid: c3c24cf591dfee74f9ffba0d5ad2f52b,
-        type: 2}
-      propertyPath: states.Array.size
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 4109688646506988, guid: c3c24cf591dfee74f9ffba0d5ad2f52b, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3123,31 +3088,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114667675067608740, guid: c3c24cf591dfee74f9ffba0d5ad2f52b,
-        type: 2}
-      propertyPath: states.Array.data[15].name
-      value: DashAttack
-      objectReference: {fileID: 0}
-    - target: {fileID: 114667675067608740, guid: c3c24cf591dfee74f9ffba0d5ad2f52b,
-        type: 2}
-      propertyPath: states.Array.data[15].damage
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 114667675067608740, guid: c3c24cf591dfee74f9ffba0d5ad2f52b,
-        type: 2}
-      propertyPath: states.Array.data[15].knockback.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 212953841556113628, guid: c3c24cf591dfee74f9ffba0d5ad2f52b,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 2fd7154d38e2c424f8cb7064e41ed8ea, type: 2}
-    - target: {fileID: 212568844797726930, guid: c3c24cf591dfee74f9ffba0d5ad2f52b,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 2fd7154d38e2c424f8cb7064e41ed8ea, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c3c24cf591dfee74f9ffba0d5ad2f52b, type: 2}
   m_IsPrefabParent: 0

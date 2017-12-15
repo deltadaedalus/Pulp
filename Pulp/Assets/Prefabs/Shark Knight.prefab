@@ -256,7 +256,7 @@ MonoBehaviour:
   hurtSprite: {fileID: 212920318714910780}
   hitSprite: {fileID: 212568844797726930}
   blockSprite: {fileID: 212953841556113628}
-  maxHealth: 0
+  maxHealth: 100
   states:
   - name: H_Attack_1
     damage: 2
@@ -318,10 +318,6 @@ MonoBehaviour:
     damage: 20
     knockback: {x: 20, y: 1}
     heavy: 1
-  - name: DashAttack
-    damage: 8
-    knockback: {x: 0, y: 5}
-    heavy: 0
   currentState:
     name: 
     damage: 0
@@ -387,7 +383,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 2fd7154d38e2c424f8cb7064e41ed8ea, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -475,7 +471,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 2fd7154d38e2c424f8cb7064e41ed8ea, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
